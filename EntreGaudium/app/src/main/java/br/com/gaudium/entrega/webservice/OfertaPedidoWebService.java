@@ -29,9 +29,9 @@ public class OfertaPedidoWebService extends AsyncTask {
                     BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
                     String jsonText = readAll(rd);
                     Gson gson = new GsonBuilder().create();
-                    Type accountsList = new TypeToken<PedidoJsonObj>() {
+                    Type type = new TypeToken<PedidoJsonObj>() {
                     }.getType();
-                    PedidoJsonObj responseObj = gson.fromJson(jsonText, accountsList);
+                    PedidoJsonObj responseObj = gson.fromJson(jsonText, type);
                     if (responseObj.isSuccess()) {
                         callback.run(responseObj.getResponse());
                     } else {
