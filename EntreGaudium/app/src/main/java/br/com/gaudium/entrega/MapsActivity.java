@@ -148,7 +148,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void updateMapMarkers(){
         if(mMap == null) return;
         if(userMarker == null) {
-            userMarker = mMap.addMarker(new MarkerOptions().position(dLocRet.getLatLng()).icon(Util.bitmapDescriptorFromVector(this, R.drawable.pin_user)));
+            userMarker = mMap.addMarker(new MarkerOptions().position(dLocRet.getLatLng()).icon(Util.bitmapDescriptorFromVector(this, R.drawable.pin_user_white)));
         } else if(!userMarker.getPosition().equals(dLocRet.getLatLng())){
             moveMarkerAnimated(userMarker, dLocRet.getLatLng());
         }
