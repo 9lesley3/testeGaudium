@@ -2,6 +2,7 @@ package br.com.gaudium.entrega;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -38,7 +39,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private LinearLayout layMenuOferta, layMenuColeta, layMenuEntrega;
     private RelativeLayout layColetaButton, layEntregaButton, layMenu;
-    private TextView txtEnderecoOferta, txtEnderecoColeta, txtEntrega;
+    private TextView txtEnderecoOferta, txtEnderecoColeta, txtEntrega, txtEntregaLabel;
     private Button btnRejeitar, btnAceitar, btnColetar, btnEntregar, btnDebugAction;
 
     Handler handler;
@@ -87,6 +88,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         layMenuEntrega = findViewById(R.id.layMenuEntrega);
         layEntregaButton = findViewById(R.id.layEntregaButton);
         txtEnderecoOferta = findViewById(R.id.txtEnderecoOferta);
+        txtEntregaLabel = findViewById(R.id.txtEntregaLabel);
         btnEntregar = findViewById(R.id.btnEntregar);
         btnEntregar.setOnClickListener(view -> onDeliver());
 
@@ -420,6 +422,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Método que controla ação de botão de debug. Em cada etapa da corrida ele terá um comportamento diferente
      * para auxiliar o desenvolvimento
      */
+    @SuppressLint("SetTextI18n")
     private void onDebugAction() throws IOException {
         //Enquanto estiver no momento DISPONÍVEL, o botão irá forçar o recebimento de um pedido
         if (StatusEntregadorEnum.DISPONIVEL.equalsEnum(entregadorObj.getStatus())) {
@@ -431,6 +434,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             ofertaWS.obterPedido(this, oferta -> {
                 if (oferta == null) return;
                 entregadorObj.setPedido(oferta);
+                txtEntregaLabel.setText("Entregas: " + oferta.getEntregas().length);
                 entregadorObj.setStatus(StatusEntregadorEnum.DECIDINDO);
                 Util.tocarSomVibrar(MapsActivity.this);
                 updateScreen();

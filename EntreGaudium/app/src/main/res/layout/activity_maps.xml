@@ -30,24 +30,40 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-            <TextView
-                android:id="@+id/txtLocalColetaLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="#3A3A3A"
-                android:text="@string/label_endereco_coleta"/>
 
-            <TextView
-                android:id="@+id/txtEnderecoOferta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="#222"
-                android:layout_marginBottom="12dp"
-                tools:text="Rua da Assembéia, 10 - Centro"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/txtEntregaLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/label_entrega"
+                    android:textColor="#3A3A3A"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/txtLocalColetaLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_endereco_coleta"
+                    android:textColor="#3A3A3A"
+                    android:textSize="12sp" />
+            </RelativeLayout>
 
             <!-- Espaço com botões do menu do momento DECIDINDO -->
+            <TextView
+                android:id="@+id/txtEnderecoOferta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#222"
+                android:textSize="16sp"
+                tools:text="Rua da Assembéia, 10 - Centro" />
+
             <RelativeLayout
                 style="MenuLayButton"
                 android:id="@+id/layOpcoes"
