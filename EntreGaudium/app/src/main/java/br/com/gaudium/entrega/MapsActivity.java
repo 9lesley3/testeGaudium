@@ -26,6 +26,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import br.com.gaudium.entrega.maps.LatLngInterpolator;
 import br.com.gaudium.entrega.model.DebugLocationRetriever;
@@ -39,7 +41,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private LinearLayout layMenuOferta, layMenuColeta, layMenuEntrega;
     private RelativeLayout layColetaButton, layEntregaButton, layMenu;
-    private TextView txtEnderecoOferta, txtEnderecoColeta, txtEntrega, txtEntregaLabel, txtEnderecoEntrega;
+    private TextView txtEnderecoOferta, txtEnderecoColeta, txtEntrega, txtEntregaLabel, txtEnderecoEntrega, txtTimeOferta;
     private Button btnRejeitar, btnAceitar, btnColetar, btnEntregar, btnDebugAction;
 
     Handler handler;
@@ -89,6 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         layEntregaButton = findViewById(R.id.layEntregaButton);
         txtEnderecoOferta = findViewById(R.id.txtEnderecoOferta);
         txtEntregaLabel = findViewById(R.id.txtEntregaLabel);
+        txtTimeOferta = findViewById(R.id.txtTimeOferta);
         txtEnderecoEntrega = findViewById(R.id.txtEnderecoEntrega);
         btnEntregar = findViewById(R.id.btnEntregar);
         btnEntregar.setOnClickListener(view -> onDeliver());
@@ -135,6 +138,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private void updateScreen() {
         showMenuOferta(StatusEntregadorEnum.DECIDINDO.equalsEnum(entregadorObj.getStatus()));
+        timeOut();
         showMenuColeta(StatusEntregadorEnum.COLETANDO.equalsEnum(entregadorObj.getStatus()));
         showMenuEntrega(StatusEntregadorEnum.ENTREGANDO.equalsEnum(entregadorObj.getStatus()));
 
@@ -272,9 +276,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Volta para o momento anterior, DISPONÍVEL
      */
     private void onReject() {
-        entregadorObj.setStatus(StatusEntregadorEnum.DISPONIVEL);
-        Util.playPop(this);
-        updateScreen();
+        Handler refresh = new Handler(Looper.getMainLooper());
+        refresh.post(new Runnable() {
+            public void run() {
+                entregadorObj.setStatus(StatusEntregadorEnum.DISPONIVEL);
+                Util.playPop(getBaseContext());
+                updateScreen();
+            }
+        });
     }
 
     /**
@@ -282,9 +291,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Aceita o pedido recebido e avança para o momento COLETANDO
      */
     private void onAccept() {
-        entregadorObj.setStatus(StatusEntregadorEnum.COLETANDO);
-        Util.playPop(this);
-        updateScreen();
+        Handler refresh = new Handler(Looper.getMainLooper());
+        refresh.post(new Runnable() {
+            public void run() {
+                entregadorObj.setStatus(StatusEntregadorEnum.COLETANDO);
+                Util.playPop(getBaseContext());
+                updateScreen();
+            }
+        });
     }
 
     /**
@@ -292,9 +306,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Confirma recebimento do pedido e avança para o momento ENTREGANDO
      */
     private void onCollect() {
-        entregadorObj.setStatus(StatusEntregadorEnum.ENTREGANDO);
-        Util.playPop(this);
-        updateScreen();
+        Handler refresh = new Handler(Looper.getMainLooper());
+        refresh.post(new Runnable() {
+            public void run() {
+                entregadorObj.setStatus(StatusEntregadorEnum.ENTREGANDO);
+                Util.playPop(getBaseContext());
+                updateScreen();
+            }
+        });
     }
 
     /**
@@ -303,16 +322,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * encerra a entrega e volta para o momento DISPONÍVEL
      */
     private void onDeliver() {
-        entregadorObj.getPedido().getEntregaAtual().setEntregue(true);
-        if (entregadorObj.getPedido().getEntregaAtual() == null) {
-            //FINALIZAR
-            entregadorObj.setStatus(StatusEntregadorEnum.DISPONIVEL);
-            Toast.makeText(this, R.string.toast_entrega_finalizada, Toast.LENGTH_SHORT).show();
-            Util.playCompleted(this);
-        } else {
-            Util.playPop(this);
-        }
-        updateScreen();
+        Handler refresh = new Handler(Looper.getMainLooper());
+        refresh.post(new Runnable() {
+            public void run() {
+                entregadorObj.getPedido().getEntregaAtual().setEntregue(true);
+                if (entregadorObj.getPedido().getEntregaAtual() == null) {
+                    //FINALIZAR
+                    entregadorObj.setStatus(StatusEntregadorEnum.DISPONIVEL);
+                    Toast.makeText(getBaseContext(), R.string.toast_entrega_finalizada, Toast.LENGTH_SHORT).show();
+                    Util.playCompleted(getBaseContext());
+                } else {
+                    Util.playPop(getBaseContext());
+                }
+                updateScreen();
+            }
+        });
     }
 
     /**
@@ -328,10 +352,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (entregadorObj.getPedido() != null) {
                     txtEnderecoOferta.setText(entregadorObj.getPedido().getEndereco_coleta());
                 }
+
             }
         });
+    }
 
+    public void timeOut() {
+        Handler refresh = new Handler(Looper.getMainLooper());
+        refresh.post(new Runnable() {
+            public void run() {
+                for (int i = 15; i >= 0; i--) {
+                    try {
+                        if (i == 0) {
+                            onReject();
+                        } else {
+                            txtTimeOferta.setText("00:" + i);
+                            Thread.sleep(1000);
 
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -375,7 +419,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
-
     }
 
 

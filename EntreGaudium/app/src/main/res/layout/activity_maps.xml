@@ -39,30 +39,64 @@
                     android:id="@+id/txtEntregaLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginBottom="8dp"
                     android:text="@string/label_entrega"
-                    android:textColor="#3A3A3A"
-                    android:textSize="12sp" />
+                    android:textColor="#E95252"
+                    android:textSize="12sp"
+                    android:layout_alignParentEnd="true" />
 
                 <TextView
                     android:id="@+id/txtLocalColetaLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_toStartOf="@+id/txtEntregaLabel"
+                    android:layout_toLeftOf="@+id/txtEntregaLabel"
                     android:text="@string/label_endereco_coleta"
                     android:textColor="#3A3A3A"
                     android:textSize="12sp" />
             </RelativeLayout>
 
             <!-- Espaço com botões do menu do momento DECIDINDO -->
-            <TextView
-                android:id="@+id/txtEnderecoOferta"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#222"
-                android:textSize="16sp"
-                tools:text="Rua da Assembéia, 10 - Centro" />
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/txtEnderecoOferta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="120dp"
+                    android:layout_toStartOf="@+id/txtTimeOferta"
+                    android:layout_toLeftOf="@+id/txtTimeOferta"
+                    android:textColor="#222"
+                    android:textSize="16sp"
+                    tools:text="Rua da Assembéia, 10 - Centro" />
+
+                <TextView
+                    android:id="@+id/txtTimeOferta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/label_entrega"
+                    android:layout_alignParentEnd="true"
+                    android:textColor="#2DC935"
+                    android:textSize="16sp"
+                    tools:text="00:00" />
+            </RelativeLayout>
+
 
             <RelativeLayout
                 style="MenuLayButton"
@@ -156,14 +190,14 @@
                     android:layout_marginBottom="12dp"
                     tools:text="Vá até o endereço do pedido #1"/>
 
-                <TextView
-                    android:id="@+id/txtEnderecoEntrega"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="#222"
-                    android:layout_marginBottom="12dp"
-                    tools:text="Endereço"/>
+            <TextView
+                android:id="@+id/txtEnderecoEntrega"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:textColor="#E95252"
+                android:textSize="16sp"
+                tools:text="Endereço" />
 
 
             <!-- Espaço com botões do menu do momento ENTREGANDO -->
