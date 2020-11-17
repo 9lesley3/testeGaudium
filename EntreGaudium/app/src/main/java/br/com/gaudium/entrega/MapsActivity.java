@@ -138,7 +138,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private void updateScreen() {
         showMenuOferta(StatusEntregadorEnum.DECIDINDO.equalsEnum(entregadorObj.getStatus()));
-        timeOut();
         showMenuColeta(StatusEntregadorEnum.COLETANDO.equalsEnum(entregadorObj.getStatus()));
         showMenuEntrega(StatusEntregadorEnum.ENTREGANDO.equalsEnum(entregadorObj.getStatus()));
 
